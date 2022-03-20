@@ -1,14 +1,24 @@
-<!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="{% static 'webgazer.js' %}"></script>
+    <script>
+        webgazer.setGazeListener(function(data, elapsedTime) {
+            if (data == null) {
+                return;
+            }
+            let xprediction = data.x; 
+            let yprediction = data.y; 
+            console.log(`x:${xprediction} y:${yprediction}`); 
+        }).begin();
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> 
     <link rel="shortcut icon" href="#">
 
-    <title>안녕</title>
+    <title>index page</title>
 </head>
 <body>
     <video autoplay controls class="video_player" >
@@ -17,28 +27,20 @@
     <h1 id="app">{{ text }}</h1>
 </body>
 
-<script>
-    var socket = new WebSocket('ws://localhost:8000/ws/some_url/');
-    
-    let video_player = document.querySelector('.video_player')
-    video_player.addEventListener('play', e => {
-        let video_src = video_player.currentSrc;
-        socket.send(JSON.stringify({video_src}))
-    })
-
-    
-
-    socket.onmessage = function(event){
-        var data = JSON.parse(event.data);
-        console.log(data);
-        document.querySelector('#app').innerText = data.message;
-    }
-
-
-    
-</script>
-
-
+    <script>
+        let socket = new WebSocket('ws://localhost:8000/ws/some_url/');
+        
+        let video_player = document.querySelector('.video_player')
+        video_player.addEventListener('play', e => {
+            let video_src = video_player.currentSrc;
+            socket.send(JSON.stringify({video_src}))
+        })
+        socket.onmessage = function(event){
+            let data = JSON.parse(event.data);
+            console.log(data);
+            document.querySelector('#app').innerText = data.message;
+        }
+    </script>
 </html>
 
 
