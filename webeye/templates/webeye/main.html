@@ -25,16 +25,71 @@
     <title>index page</title>
 </head>
 <body>
-    <section>
-        <div class="inner">
+    <ul id="calibrationDiv">
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt1" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt2" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt3" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt4" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt5" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt6" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt7" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt8" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+        <li class="item">
+            <input type="image" src="/static/img/beforeCheck.png" id="Pt9" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
+        </li>
+    </ul>
+
+    <section id="container">
             <video autoplay controls class="video_player" >
                 <source src="http://WSTR.ebsi.co.kr/M45K2201/S20210001324/S20210001324_500K_100030017375.mp4" type="video/mp4">
             </video>
             <h1 id="app">{{ text }}</h1>
-        </div>
     </section>
 </body>
+    <script>
+        let PointCalibrate = 0;
+        let CalibrationPoints = {};
 
+        const btnClick = (element) => {
+            let id = element.id;
+            if (!CalibrationPoints[id]) {
+                CalibrationPoints[id] = 0;
+            }
+            CalibrationPoints[id]++;
+
+            if(CalibrationPoints[id] == 5) {
+                document.getElementById(id).src = '/static/img/check.png'
+                document.getElementById(id).style.opacity = 1;
+                document.getElementById(id).disabled = true;
+                PointCalibrate++;
+            } else if (CalibrationPoints[id] < 5) {
+                let opacity = 1.0 -(CalibrationPoints[id] * 0.2);
+                document.getElementById(id).style.opacity = opacity;
+            }
+            console.log(PointCalibrate)
+            if(PointCalibrate === 9) {
+                document.getElementById('calibrationDiv').style.display = 'none';
+                document.getElementById('container').style.display = 'flex';
+            }
+        }
+
+    </script>
     <script>
         let socket = new WebSocket('ws://localhost:8000/ws/some_url/');
         

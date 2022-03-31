@@ -1,19 +1,74 @@
-section{
-    position:relative;
-    background:#FFF;
-}
-  
-section .inner{
-    height:500px;
+section {
+    /* height:100%; */
+    padding-top:50px;
     max-width:980px;
     margin:0 auto;
     box-sizing:border-box;
     position:relative;
-    display: flex;
     justify-content: center;
     align-items: center;
+    display:none;
 }
 
 section video {
     display: block;
+}
+
+#calibrationDiv {
+    padding-top:50px;
+    max-width:980px;
+    margin:0 auto;
+    box-sizing:border-box;
+    position:relative;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#calibrationDiv .item{
+    flex: 0 0 32%;
+    height: 200px;
+    display: grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:1fr 2fr 1fr;
+    grid-template-areas:'Pt1 Pt2 Pt3'
+                        'Pt4 Pt5 Pt6'
+                        'Pt7 Pt8 Pt9'
+}
+
+.item #Pt1{
+    grid-area:Pt1;
+}
+
+.item #Pt2{
+    grid-area:Pt2;
+}
+
+.item #Pt3{
+    grid-area:Pt3;
+}
+
+.item #Pt4{
+    grid-area:Pt4;
+}
+
+.item #Pt5{
+    grid-area:Pt5;
+}
+
+.item #Pt6{
+    grid-area:Pt6;
+}
+
+.item #Pt7{
+    grid-area:Pt7;
+}
+
+.item #Pt8{
+    grid-area:Pt8;
+}
+
+.item #Pt9{
+    grid-area:Pt9;
 }
