@@ -1,0 +1,21 @@
+{% load static %}
+{% block body %}
+<div class="row">
+    <div class="col-4">
+        <img src= {% if user.profile.image %}"{{ user.profile.image.url }}"
+             src= {% else %}"https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+            width="150rem" style="border-radius: 50%;" alt="">
+
+    </div>
+    <div class="col-8">
+        <h2>{{ user.username }}
+            {% if user.username == user.username %}
+{#            <a href="{% url 'mypage' %}"><button class="btn btn-success">프로필 편집</button></a>#}
+            {% endif %}
+            <!-- 다음 포스트에 프로필 편집 페이지를 구성할 것이다. -->
+        </h2>
+        <p>{{ user.profile.nickname }}</p>
+        <p>{{ user.profile.description }}</p>
+    </div>
+</div>
+{% endblock %}

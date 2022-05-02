@@ -37,8 +37,8 @@
                 {% if user.is_anonymous %}
                   <a href="/signin/" class="btn sign-in">Sign in</a>
                   <a href="/signup/" class="btn btn--primary sign-up">Sign up</a>
-                {% endif %}
-                {% if user.is_authenticated %}
+                {% else %}
+                    <a href="{% url 'mypage' user.pk %}" class="btn mypage">My Page</a>
                     <a href="/logout/" class="btn btn--primary sign-up">Log out</a>
                 {% endif %}
                 </div>
