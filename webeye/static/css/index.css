@@ -1,0 +1,16 @@
+.inner{
+    /* height:78px; */
+    max-width:1024px;
+    margin:0 auto;
+    box-sizing:border-box;
+    position:relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-content{
+    padding-top:70px;
+    font-size: 36px;
+    line-height: 52px;
+}

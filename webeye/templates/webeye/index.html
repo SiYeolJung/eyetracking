@@ -1,0 +1,30 @@
+{% extends "webeye/base.html" %}
+
+{% block content %}
+
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> 
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <title>index page</title>
+</head>
+<body>
+    <div class="inner">
+        <div class="main-content">
+            <h3 class="head-content">
+                <em class="emph_title">
+                    <input type="image" src="/static/img/eyeblink.gif" style="width:50px">아이트래커킹
+                </em>
+                <br>5월 2일 입니다
+            </h3>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+

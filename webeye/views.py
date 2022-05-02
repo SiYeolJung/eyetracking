@@ -12,9 +12,10 @@ from torchvision import transforms
 # Create your views here.
 
 def basic(request):
+    return render(request,'webeye/index.html')
+
+def video(request):
     return render(request,'webeye/main.html')
-
-
 
 def classifyvideo(request):
     jsonObject = json.loads(request.body)
