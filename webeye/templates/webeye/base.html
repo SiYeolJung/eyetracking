@@ -35,11 +35,11 @@
               <div class="sign-group toggle">
                 <div class="btn-group">
                 {% if user.is_anonymous %}
-                  <a href="/accounts/signin/" class="btn sign-in">Sign in</a>
-                  <a href="/accounts/signup/" class="btn btn--primary sign-up">Sign up</a>
+                  <a href="/signin/" class="btn sign-in">Sign in</a>
+                  <a href="/signup/" class="btn btn--primary sign-up">Sign up</a>
                 {% endif %}
                 {% if user.is_authenticated %}
-                <a href="/accounts/logout/" class="btn log-out">Log out</a>
+                    <a href="/logout/" class="btn btn--primary sign-up">Log out</a>
                 {% endif %}
                 </div>
               </div>
