@@ -1,16 +1,65 @@
-.inner{
-    /* height:78px; */
-    max-width:1024px;
+body{
+    background: url("/static/img/index.jpg") no-repeat;
+}
+
+.main-inner{
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    height:80%;
     margin:0 auto;
     box-sizing:border-box;
     position:relative;
-    display: flex;
-    justify-content: space-between;
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
     align-items: center;
 }
 
 .main-content{
-    padding-top:70px;
-    font-size: 36px;
-    line-height: 52px;
+    font-size: 50px;
+    line-height: 60px;
+    /* padding-top:100px; */
+    text-align: center;
+    color:white;
 }
+
+.head-content{
+    text-align: center;
+}
+
+.main-content .emph-title .emph-txt{
+    color: rgb(214, 214, 214);
+    font-size: 25px;
+}
+
+.txt2{
+   line-height:20px;
+}
+
+.start-btn{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    background-color: #bcb5f5;
+    box-shadow: 1px 4px 0 rgb(0,0,0,0.5);
+    font-weight: bold;
+    font-size:18px;
+    color:white;
+}
+
+button:active {
+    box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
+    position: relative;
+    top:2px;
+  }
+  
+button:hover {
+    background-color: rgb(209, 174, 255);
+  }

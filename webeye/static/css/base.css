@@ -8,7 +8,7 @@ li {
 }
   
 body {
-    font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .btn {
@@ -46,12 +46,12 @@ body {
 /*HEADER*/
 header{
     position:relative;
-    background:#FFF;
+    /* background:rgb(247, 244, 244); */
 }
   
 header .inner{
     height:78px;
-    max-width:1024px;
+    max-width:1200px;
     margin:0 auto;
     box-sizing:border-box;
     position:relative;
@@ -85,7 +85,8 @@ header .main-menu {
 header .main-menu li a {
     display:block;
     padding:30px;
-    color:black;
+    color:white;
+    font-weight: bold;
 }
 
 header .main-menu li a:hover {
@@ -121,7 +122,7 @@ header .btn-group .sign-in {
   }
   
 /*MEDIA*/
-@media (max-width:1024px){
+@media (max-width:1200px){
     header .inner{
       max-width:none;
       height:auto;
