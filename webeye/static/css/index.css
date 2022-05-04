@@ -2,6 +2,10 @@ body{
     background: url("/static/img/index.jpg") no-repeat;
 }
 
+header .main-menu li a {
+    color:white !important;
+}
+
 .main-inner{
     font-family: 'IBM Plex Sans KR', sans-serif;
     height:80%;
