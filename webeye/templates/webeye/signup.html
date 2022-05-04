@@ -1,22 +1,41 @@
-{% load static %}
+{% extends "webeye/base.html" %}
+
 {% block content %}
-<div class="wrapper" style="text-align: center;">
-    <h1>Sign up</h1>
-    <form method="POST">
-        {% csrf_token %}
-        아이디: <br>
-        <input name="username" type="text">
-        <br>
-        비밀번호: <br>
-        <input name="password1" type="password">
-        <br>
-        비밀번호 확인: <br>
-        <input name="password2" type="password">
-        <br>
-        이메일: <br>
-        <input name="email" type="email">
-        <br><br>
-        <input type="submit" class="btn btn-primary" value="Sign Up">
-    </form>
-</div>
+
+{% load static %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="login-inner" style="height:570px;">
+            <div style="text-align: center;">
+
+            <h1>Sign up</h1>
+            <form method="POST">
+                {% csrf_token %}
+                사용하실 아이디를 입력해주세요.
+                <div>
+                    <input name="username" type="text" class="text input--text" placeholder="Input ID" required autofocus>
+                </div>
+                비밀번호 입력해주세요.
+                <div>
+                    <input name="password1" type="password" class="password input--text" placeholder="Input Password" required>
+                </div>
+                비밀번호를 다시 입력해주세요.
+                <div>
+                    <input name="password2" type="password" class="password input--text" placeholder="Password Repeat" required>
+                </div>
+                이메일을 입력해주세요.
+                <div>
+                    <input name="email" type="email" class="email input--text" placeholder="Input Email address" required autofocus>
+                </div>
+                <div style="padding-top:50px">
+                    <input type="submit" class="btn btn-primary btn-login" value="Sign Up!" class="text input--text">
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</body>
 {% endblock %}
