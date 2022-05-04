@@ -6,12 +6,14 @@ import json
 
 from django.http import JsonResponse
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from PIL import Image
 from torchvision import transforms
 from django.contrib import auth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from .models import Profile
 # Create your views here.
 
 def basic(request):
@@ -101,3 +103,6 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
+def mypage(request, pk):
+    user = get_object_or_404(get_user_model(), pk=pk)
+    return render(request, 'webeye/mypage.html', {'user': user})
