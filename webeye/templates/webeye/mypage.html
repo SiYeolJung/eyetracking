@@ -10,7 +10,7 @@
     <div class="col-8">
         <h2>{{ user.username }}
             {% if user.username == user.username %}
-{#            <a href="{% url 'mypage' %}"><button class="btn btn-success">프로필 편집</button></a>#}
+            <a href="{% url 'myinfo' %}"><button class="btn btn-success">프로필 편집</button></a>
             {% endif %}
             <!-- 다음 포스트에 프로필 편집 페이지를 구성할 것이다. -->
         </h2>

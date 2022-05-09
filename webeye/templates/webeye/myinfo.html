@@ -1,0 +1,15 @@
+<!-- accounts/templates/accounts/profile.html -->
+{% load static %}
+
+{% load bootstrap4 %}
+
+{% block body %}
+    <h1 class="text-center">회원정보 변경</h1>
+    <form method="POST" enctype="multipart/form-data">
+    <!-- 파일을 업로드할 때 form method는 POST여야하고 enctype을 multipart/form-data로 설정해야 한다. -->
+        {% csrf_token %}
+        {% bootstrap_form user_change_form %}
+        {% bootstrap_form profile_form %}
+        <button type="submit" class="btn btn-primary">수정</button>
+    </form>
+{% endblock %}

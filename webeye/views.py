@@ -103,6 +103,12 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
+
 def mypage(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     return render(request, 'webeye/mypage.html', {'user': user})
+
+
+def myinfo(request, pk):
+    user = get_object_or_404(get_user_model(), pk=pk)
+    return render(request, 'webeye/myinfo.html', {'user': user})
