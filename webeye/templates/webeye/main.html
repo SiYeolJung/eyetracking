@@ -92,7 +92,6 @@
             console.log(`x:${xprediction} y:${yprediction}`); 
         }).begin();
         
-        
         let socket = new WebSocket('ws://localhost:8000/ws/some_url/');
         let video_player = document.querySelector('.video_player');
 
@@ -105,13 +104,10 @@
             currentTime = this.currentTime;
         }
 
-
-
         let video_src;
         let data;
         var send_data = {video_src, xprediction, yprediction, data, currentTime}
         
-
         video_player.addEventListener('play', e => {
             video_src = video_player.currentSrc;
             var start_video = new Date();
@@ -137,7 +133,6 @@
             console.log(send_data);
             socket.send(JSON.stringify(send_data));
         }
-
     </script>
 
 </html>
