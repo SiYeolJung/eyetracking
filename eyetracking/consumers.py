@@ -44,14 +44,13 @@ colors = (colors % 255).numpy().astype("uint8")
 
 class WSConsumer(WebsocketConsumer):
     def analysis(self, video_url,currentTime):
-        print('currentTime!!!!!!!!!!!!!!')
         if currentTime is not None:
             afterTime = currentTime+1
             currentTime = datetime.datetime.fromtimestamp(currentTime).strftime('%M:%S')
             afterTime = datetime.datetime.fromtimestamp(afterTime).strftime('%M:%S')
             print(currentTime)
             print(afterTime)
-            result = subprocess.Popen(['ffmpeg','-ss',currentTime,'-t',afterTime,'-i',video_url,'-r','30','-f','image2','-update','1','-threads','10','-y','test.jpg'],stdout = subprocess.PIPE)
+            result = subprocess.Popen(['ffmpeg','-ss',currentTime,'-t',afterTime,'-i',video_url,'-r','1','-q','0','-f','image2','-update','1','-threads','4','-y','test.jpg'],stdout = subprocess.PIPE)
 
             out,err = result.communicate()
             exitcode = result.returncode
@@ -59,11 +58,9 @@ class WSConsumer(WebsocketConsumer):
                 print(exitcode, out.decode('utf8'), err.decode('utf8'))
             else:
                 print('Completed')
-            print('video1')
 
         frame = Image.open('test.jpg')
         frame = np.array(frame)
-        print(type(frame))
 
         color_coverted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
         pil_image=Image.fromarray(color_coverted)
@@ -87,7 +84,6 @@ class WSConsumer(WebsocketConsumer):
         sum_numpy_image = sum(sum(numpy_image))
         json_image = numpy_image.tolist()
         self.send(json.dumps({'data':json_image}))
-        print('video3')
 
     def mindpoint(self, xprediction, yprediction, data):
         xprediction = int(xprediction)
