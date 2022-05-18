@@ -9,16 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="{% static 'js/webgazer.js' %}"></script>
-    <script>
-        webgazer.setGazeListener(function(data, elapsedTime) {
-            if (data == null) {
-                return;
-            }
-            let xprediction = data.x; 
-            let yprediction = data.y; 
-            console.log(`x:${xprediction} y:${yprediction}`); 
-        }).begin();
-    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> 
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="{% static 'css/video.css' %}">
@@ -56,7 +46,7 @@
     </ul>
 
     <section id="container">
-            <video autoplay controls class="video_player" >
+            <video id="video_player" controls class="video_player" >
                 <source src="http://WSTR.ebsi.co.kr/M45K2201/S20210001324/S20210001324_500K_100030017375.mp4" type="video/mp4">
             </video>
             <h1 id="app">{{ text }}</h1>
@@ -88,22 +78,63 @@
                 document.getElementById('container').style.display = 'flex';
             }
         }
-
     </script>
+
     <script>
-        let socket = new WebSocket('ws://localhost:8000/ws/some_url/');
+        var xprediction =0;
+        var yprediction = 0;
+        webgazer.setGazeListener(function(data, elapsedTime) {
+            if (data == null) {
+                return;
+            }
+            xprediction = data.x; 
+            yprediction = data.y; 
+            console.log(`x:${xprediction} y:${yprediction}`); 
+        }).begin();
         
-        let video_player = document.querySelector('.video_player')
+        let socket = new WebSocket('ws://localhost:8000/ws/some_url/');
+        let video_player = document.querySelector('.video_player');
+
+        var obj = document.getElementById("video_player");
+        let currentTime;
+
+        obj.onloadedmetadata = function() {
+            console.log(this.duration);
+            console.log('currentTime:'+this.currentTime);
+            currentTime = this.currentTime;
+        }
+
+        let video_src;
+        let data;
+        var send_data = {video_src, xprediction, yprediction, data, currentTime}
+        
         video_player.addEventListener('play', e => {
-            let video_src = video_player.currentSrc;
-            socket.send(JSON.stringify({video_src}))
+            video_src = video_player.currentSrc;
+            var start_video = new Date();
+            var start_hours = start_video.getHours();
+            var start_minute = start_video.getMinutes();
+            var start_second = start_video.getSeconds();
+            
+            send_data['video_src'] = video_src;
+            send_data['data'] = null;
+            send_data['currentTime'] = null;
+            socket.send(JSON.stringify(send_data));
         })
+        
         socket.onmessage = function(event){
-            let data = JSON.parse(event.data);
-            console.log(data);
-            document.querySelector('#app').innerText = data.message;
+            data = JSON.parse(event.data).data;
+            bool_concentrate = JSON.parse(event.data).bool_concentrate
+            document.querySelector('#app').innerText = bool_concentrate;
+            var vision_data = {xprediction,yprediction,data};
+            send_data['xprediction'] = xprediction;
+            send_data['yprediction'] = yprediction;
+            send_data['data'] = data;
+            send_data['currentTime'] = obj.currentTime;
+            console.log(send_data);
+            socket.send(JSON.stringify(send_data));
         }
     </script>
+
 </html>
 {% endblock %}
 

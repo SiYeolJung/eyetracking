@@ -11,17 +11,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> 
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600&family=Lobster&display=swap" rel="stylesheet">
     <title>index page</title>
 </head>
 <body>
-    <div class="inner">
+    <div class="main-inner">
         <div class="main-content">
             <h3 class="head-content">
-                <em class="emph_title">
-                    <input type="image" src="/static/img/eyeblink.gif" style="width:50px">아이트래커킹
-                </em>
-                <br>5월 2일 입니다
+                <div class="emph-title">
+                    <div class="emph-txt-head">Enhance Your Concentration</div>
+                    <div>Enhance Your Learning</div>
+                    <div><span class="emph-txt txt1">GTS를 통해 집중력을 높이고,</span></div>
+                    <div><span class="emph-txt txt2">학습 집중도를 체크해보세요</span></div>
+                </div>
             </h3>
+            <div class="start-btn">
+                <button>Start Learning!</button>
+            </div>
         </div>
     </div>
 </body>
