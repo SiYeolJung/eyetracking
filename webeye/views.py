@@ -13,8 +13,8 @@ from django.contrib import auth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from .models import Profile
-from .models import Lecture
+from django.contrib.auth.decorators import login_required
+from .models import Profile, Lecture
 # Create your views here.
 
 def basic(request):
@@ -80,6 +80,7 @@ def signup(request):
             user = User.objects.create_user(username=request.POST['username'],
                                             password=request.POST['password1'],
                                             email=request.POST['email'],)
+            Profile.objects.create(user=user)
             auth.login(request, user)
             return redirect('/')
         return render(request, 'webeye/signup.html')
@@ -92,6 +93,8 @@ def signin(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            if not Profile.objects.filter(user=user):
+                Profile.objects.create(user=user)
             auth.login(request, user)
             return redirect('/')
         else:
@@ -118,3 +121,21 @@ def myinfo(request, pk):
 def lecture(request):
     lecturelist = Lecture.objects.all()
     return render(request, 'webeye/lecture.html', {'lecturelist': lecturelist})
+
+
+@login_required
+def lecture_mark_toggle(request, lecture_id):
+    lect = get_object_or_404(Lecture, pk=lecture_id)
+    user = request.user
+    profile = Profile.objects.get(user=user)
+
+    if profile.mark_lecture.filter(id=lecture_id).exists():
+        profile.mark_lecture.remove(lect)
+        lect.mark_count -= 1
+        lect.save()
+    else:
+        profile.mark_lecture.add(lect)
+        lect.mark_count += 1
+        lect.save()
+
+    return redirect('lecture')

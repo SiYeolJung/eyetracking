@@ -10,11 +10,15 @@
 
     </div>
     <div class="col-8">
-        <h2>{{ user.username }}
+        <h2>
+            <li>{{ user.username }}</li>
+            찜한 강의들
+            {% for lect in user.profile.mark_lecture.all %}
+                <li>{{ lect.lecture_name }}</li>
+            {% endfor %}
             {% if user.username == user.username %}
             <a href="{% url 'myinfo' %}"><button class="btn btn-success">프로필 편집</button></a>
             {% endif %}
-            <!-- 다음 포스트에 프로필 편집 페이지를 구성할 것이다. -->
         </h2>
         <p>{{ user.profile.nickname }}</p>
         <p>{{ user.profile.description }}</p>

@@ -14,6 +14,9 @@
             style="width:150px; height:150px;">
             <li>{{list.lecture_name}}</li>
             <li>{{list.teacher}}</li>
+            <li>듣는 학생 수 : {{list.mark_count}}</li>
+            <a href="{% url 'lecture_mark_toggle' list.id %}">
+                <button class="btn btn-success">찜하기? 북마크? 암튼 감사합니다.</button></a>
         </ul>
     {% endfor %}
     </table>
