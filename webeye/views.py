@@ -14,6 +14,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from .models import Profile
+from .models import Lecture
 # Create your views here.
 
 def basic(request):
@@ -112,3 +113,8 @@ def mypage(request, pk):
 def myinfo(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     return render(request, 'webeye/myinfo.html', {'user': user})
+
+
+def lecture(request):
+    lecturelist = Lecture.objects.all()
+    return render(request, 'webeye/lecture.html', {'lecturelist': lecturelist})

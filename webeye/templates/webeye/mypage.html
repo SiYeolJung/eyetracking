@@ -1,4 +1,6 @@
-{% load static %}
+{% extends "webeye/base.html" %}
+
+{% block content %}
 {% block body %}
 <div class="row">
     <div class="col-4">
@@ -18,4 +20,5 @@
         <p>{{ user.profile.description }}</p>
     </div>
 </div>
+{% endblock %}
 {% endblock %}
