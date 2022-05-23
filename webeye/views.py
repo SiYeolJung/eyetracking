@@ -14,7 +14,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Lecture
+from django.db import connection
+from .models import Users,Lecture,Scrap
+import pymysql
+import datetime
+
+now = datetime.datetime.now()
 # Create your views here.
 
 def basic(request):
@@ -23,65 +28,26 @@ def basic(request):
 def video(request):
     return render(request,'webeye/main.html')
 
-# def classifyvideo(request):
-#     jsonObject = json.loads(request.body)
-#     model = torch.hub.load('pytorch/vision:v0.10.0', 'deeplabv3_resnet50', pretrained=True)
-#     model.eval()
-
-#     preprocess = transforms.Compose([
-#         transforms.ToTensor(),
-#         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-#     ])
-
-#     palette = torch.tensor([2 ** 25 - 1, 2 ** 15 - 1, 2 ** 21 - 1])
-#     colors = torch.as_tensor([i for i in range(21)])[:, None] * palette
-#     colors = (colors % 255).numpy().astype("uint8")
-    
-#     cap = cv2.VideoCapture(jsonObject.get('src')) ## 영상 캡처할 url 넣기 
-
-#     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-#     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-
-#     ## 비디오가 정상적으로 열렸는지 확인
-#     while (cap.isOpened):
-#         ret, frame = cap.read()
-#         ## convert from openCV2 to PIL
-#         color_coverted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
-#         pil_image=Image.fromarray(color_coverted)
-
-#         ## 모델에 넣기 위한 준비 
-#         input_tensor = preprocess(pil_image)
-#         input_batch = input_tensor.unsqueeze(0) # create a mini-batch as expected by the model
-
-#         if torch.cuda.is_available():
-#             input_batch = input_batch.to('cuda')
-#             model.to('cuda')
-
-#         with torch.no_grad():
-#             output = model(input_batch)['out'][0]
-#         output_predictions = output.argmax(0)
-
-#         r = Image.fromarray(output_predictions.byte().cpu().numpy()).resize(pil_image.size)
-#         r.putpalette(colors)
-
-#         numpy_image=np.array(r) 
-#         sum_numpy_image = sum(sum(numpy_image))
-        
-#         result_classify ={
-#             "result" : "sum_numpy_image"
-#         }
-#         #return JsonResponse(result_classify)
-    
-#     return render(request,'webeye/main.html') 
-
 def signup(request):
     if request.method == 'POST':
+        rawPassword = request.POST['password1']
+
         if request.POST['password1'] == request.POST['password2']:
-            user = User.objects.create_user(username=request.POST['username'],
+
+            #TODO: run transaction
+            userObj = User.objects.create_user(username=request.POST['username'],
                                             password=request.POST['password1'],
                                             email=request.POST['email'],)
-            Profile.objects.create(user=user)
-            auth.login(request, user)
+
+            if Users.objects.all().exists():
+                latestUser = Users.objects.all().order_by('-uid')[0]
+                uid = latestUser.uid
+            else: 
+                uid = 0
+
+            Users.objects.create(uid = uid + 1, id = request.POST['username'], email = request.POST['email'], password = userObj.password, adddate = now.strftime('%Y-%m-%d %H:%M:%S'))
+
+            auth.login(request, userObj)
             return redirect('/')
         return render(request, 'webeye/signup.html')
     return render(request, 'webeye/signup.html')
@@ -93,8 +59,6 @@ def signin(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if not Profile.objects.filter(user=user):
-                Profile.objects.create(user=user)
             auth.login(request, user)
             return redirect('/')
         else:
@@ -110,7 +74,9 @@ def logout(request):
 
 def mypage(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
-    return render(request, 'webeye/mypage.html', {'user': user})
+    uid = Users.objects.get(id=user.username).uid
+    myScrap = Scrap.objects.all().select_related('owner').select_related('lecture').filter(owner = uid, state = 1)
+    return render(request, 'webeye/mypage.html', {'user': user, 'scraps':myScrap})
 
 
 def myinfo(request, pk):
@@ -119,23 +85,41 @@ def myinfo(request, pk):
 
 
 def lecture(request):
-    lecturelist = Lecture.objects.all()
-    return render(request, 'webeye/lecture.html', {'lecturelist': lecturelist})
+    lectureList =  Lecture.objects.all()
+    
+    groupList = {}
+    for lecture in lectureList:
+        if lecture.course in groupList:
+            groupList[lecture.course].append({
+                'title':lecture.title, 
+                'teaches':lecture.teaches,
+                'lid':lecture.lid
+            })
+        else:
+            groupList[lecture.course] = [{
+                'title':lecture.title, 
+                'teaches':lecture.teaches,
+                'lid':lecture.lid
+            }]
+
+    return render(request, 'webeye/lecture.html', {'lecturelist': groupList})
 
 
 @login_required
 def lecture_mark_toggle(request, lecture_id):
     lect = get_object_or_404(Lecture, pk=lecture_id)
     user = request.user
-    profile = Profile.objects.get(user=user)
+    userSet = Users.objects.get(id=user)
+    lectureSet = Lecture.objects.get(pk=lecture_id)
 
-    if profile.mark_lecture.filter(id=lecture_id).exists():
-        profile.mark_lecture.remove(lect)
-        lect.mark_count -= 1
-        lect.save()
+    if Scrap.objects.filter(owner=userSet.uid, lecture = lecture_id).exists():
+        scrap = Scrap.objects.filter(owner=userSet.uid, lecture = lecture_id)
+        state = scrap[0].state
+        if state == 0:
+            scrap.update(state=1)
+        else:
+            scrap.update(state=0)
     else:
-        profile.mark_lecture.add(lect)
-        lect.mark_count += 1
-        lect.save()
+        Scrap.objects.create(owner = userSet, lecture = lectureSet, adddate = now.strftime('%Y-%m-%d %H:%M:%S'), state = 1)
 
     return redirect('lecture')
