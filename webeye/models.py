@@ -1,7 +1,4 @@
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser
-
 
 
 class AuthGroup(models.Model):
@@ -124,6 +121,7 @@ class Lecture(models.Model):
     teaches = models.CharField(max_length=20)
     adddate = models.DateTimeField(db_column='addDate', blank=True, null=True)  # Field name made lowercase.
     course = models.CharField(max_length=30, blank=True, null=True)
+    url = models.CharField(max_length=2083)
 
     class Meta:
         managed = False

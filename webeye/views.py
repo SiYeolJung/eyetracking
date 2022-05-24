@@ -93,13 +93,15 @@ def lecture(request):
             groupList[lecture.course].append({
                 'title':lecture.title, 
                 'teaches':lecture.teaches,
-                'lid':lecture.lid
+                'lid':lecture.lid,
+                'url':lecture.url
             })
         else:
             groupList[lecture.course] = [{
                 'title':lecture.title, 
                 'teaches':lecture.teaches,
-                'lid':lecture.lid
+                'lid':lecture.lid,
+                'url':lecture.url
             }]
 
     return render(request, 'webeye/lecture.html', {'lecturelist': groupList})
