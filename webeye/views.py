@@ -42,7 +42,7 @@ def signup(request):
             if Users.objects.all().exists():
                 latestUser = Users.objects.all().order_by('-uid')[0]
                 uid = latestUser.uid
-            else: 
+            else:
                 uid = 0
 
             Users.objects.create(uid = uid + 1, id = request.POST['username'], email = request.POST['email'], password = userObj.password, adddate = now.strftime('%Y-%m-%d %H:%M:%S'))
@@ -85,31 +85,31 @@ def myinfo(request, pk):
 
 
 def lecture(request):
-    lectureList =  Lecture.objects.all()
-    
+    lectures = Lecture.objects.all()
+
     groupList = {}
-    for lecture in lectureList:
+    for lecture in lectures:
         if lecture.course in groupList:
             groupList[lecture.course].append({
-                'title':lecture.title, 
+                'title':lecture.title,
                 'teaches':lecture.teaches,
                 'lid':lecture.lid,
                 'url':lecture.url
             })
         else:
             groupList[lecture.course] = [{
-                'title':lecture.title, 
+                'title':lecture.title,
                 'teaches':lecture.teaches,
                 'lid':lecture.lid,
                 'url':lecture.url
             }]
 
-    return render(request, 'webeye/lecture.html', {'lecturelist': groupList})
+    return render(request, 'webeye/lecture.html', {'courselist': groupList})
 
 
 @login_required
 def lecture_mark_toggle(request, lecture_id):
-    lect = get_object_or_404(Lecture, pk=lecture_id)
+    get_object_or_404(Lecture, pk=lecture_id)
     user = request.user
     userSet = Users.objects.get(id=user)
     lectureSet = Lecture.objects.get(pk=lecture_id)
@@ -125,3 +125,8 @@ def lecture_mark_toggle(request, lecture_id):
         Scrap.objects.create(owner = userSet, lecture = lectureSet, adddate = now.strftime('%Y-%m-%d %H:%M:%S'), state = 1)
 
     return redirect('lecture')
+
+
+def lecture_list(request, course):
+    lect_list = Lecture.objects.filter(course=course)
+    return render(request, 'webeye/lecture_list.html', {'lecturelist': lect_list})

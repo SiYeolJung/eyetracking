@@ -12,5 +12,6 @@ urlpatterns = [
     path('myinfo/', views.myinfo, name='myinfo'),
     path('lecture/', views.lecture, name='lecture'),
     path('lecture_mark_toggle/<int:lecture_id>/',
-         views.lecture_mark_toggle, name="lecture_mark_toggle")
+         views.lecture_mark_toggle, name="lecture_mark_toggle"),
+    path('<str:course>/', views.lecture_list, name='lecture_list')
 ]
