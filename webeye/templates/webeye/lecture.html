@@ -13,15 +13,12 @@
     <li>강의 목록</li>
 </div>
     <table>
-        {% for key,values in lecturelist.items %}
-        <div>{{key}}</div>
+        {% for key,values in courselist.items %}
+            <div><a href="{% url 'lecture_list' key %}" >{{key}}</a></div>
             {% for value in values %}
                 <ul>
                     <img src= "https://i.imgur.com/8nLFCVPb.jpg" style="width:150px; height:150px;">
-                    <li>{{value.title}}</li>
                     <li>{{value.teaches}}</li>
-                    <li>{{value.course}}</li>
-                    <li>{{value.url}}</li>
                     <a href="{% url 'lecture_mark_toggle' value.lid %}">
                         <button class="likebtn"><img src="\static\img\heart_em.png" alt=""></button>
                     </a>
