@@ -9,6 +9,7 @@ li {
   
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: #FFFFFF;
 }
 
 .btn {
@@ -80,9 +81,9 @@ header .menu-group{
 }
 
 header .logo a { 
-    font-family: 'Lemon', cursive;
-    font-size:30px;
-    font-weight: 400;
+  font-family: 'Oxygen', sans-serif;
+    font-size:40px;
+    font-weight: 1;
     color: black;
 }
 
@@ -97,10 +98,12 @@ header .main-menu {
 
 header .main-menu li a {
     display:block;
-    padding:30px;
+    padding:40px;
     /* color:white; */
-    color:black;
-    font-weight: bold;
+    color:rgb(125, 124, 124);
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-weight: 1000;
+    font-size:15px;
 }
 
 header .main-menu li a:hover {
@@ -126,6 +129,7 @@ header .btn-group .sign-in {
       display:none;
       background:url("https://raw.githubusercontent.com/ParkYoungWoong/GitHub-Responsive/09fc6b622a6be96b288435816738e636988457f7/img/menu-toggle.svg");
       background-size:18px;
+      font-family: 'Oxygen', sans-serif;
       width:18px;
       height:24px;
       position:absolute;
@@ -182,9 +186,11 @@ header .btn-group .sign-in {
     
     header .toggle{
       display:none;
+      
     }
     header .toggle.on{
       display:block;
+      
     }
     #toggle-btn{ 
         display:block;   

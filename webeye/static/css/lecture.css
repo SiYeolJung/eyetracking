@@ -1,0 +1,20 @@
+.container li{
+    display:block;
+    padding:40px;
+    /* color:white; */
+    color:rgb(0, 0, 0);
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-weight: 1000;
+    font-size:30px;
+    
+}
+
+.taebo{
+    display:block;
+    padding:40px;   
+    /* color:white; */
+    color:rgb(0, 0, 0);
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-weight: 1000;
+    font-size:30px;
+}

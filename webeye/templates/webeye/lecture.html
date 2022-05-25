@@ -1,24 +1,49 @@
 {% extends "webeye/base.html" %}
 
 {% block content %}
+{% load static %}
 
-<head>
-    <title>강의 목록</title>
-</head>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="sxyman">
+        <meta name="description" content="navVar">
+        <meta name="viewport" content="width=device-width, intial-scale=1, user-scalable=no,maxium-sclae=1,minimum-sclae=1">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="github">
+        <meta property="og:description" content="webgit">
+        <meta property="twitter:card" content="website">
+        <meta property="twitter:title" content="github">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lemon&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600&family=Lobster&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/lecture.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    </head>
+    
 <body>
-    <h1>강의 목록 페이지입니다</h1>
+    <div class ="container">
+    <li>강의 목록</li>
+</div>
     <table>
-    {% for list in lecturelist %}
+        <div class="taebo">
         <ul>
             <img src= "https://i.imgur.com/8nLFCVPb.jpg"
             style="width:150px; height:150px;">
-            <li>{{list.lecture_name}}</li>
-            <li>{{list.teacher}}</li>
-            <li>듣는 학생 수 : {{list.mark_count}}</li>
-            <a href="{% url 'lecture_mark_toggle' list.id %}">
+            <li>list.lecture_name</li>
+            <li>list.teacher</li>
+            <li>듣는 학생 수 : yam</li>
+            
                 <button class="btn btn-success">찜하기? 북마크? 암튼 감사합니다.</button></a>
         </ul>
-    {% endfor %}
+
+</div>
     </table>
 </body>
+</html>
 {% endblock %}
