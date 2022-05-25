@@ -9,12 +9,12 @@
     
 }
 
-.taebo{
-    display:block;
-    padding:40px;   
-    /* color:white; */
-    color:rgb(0, 0, 0);
-    font-family: 'Nanum Gothic Coding', monospace;
-    font-weight: 1000;
-    font-size:30px;
+.likebtn{
+    height:50px;
+    border:0px solid rgb(255, 255, 255);
+    color:rgb(255, 255, 255);
+    background: #fff;
+    display:flex;
+    cursor:pointer;
+    position:relative;
 }
