@@ -86,25 +86,18 @@ def myinfo(request, pk):
 
 def lecture(request):
     lectureList =  Lecture.objects.all()
-    
-    groupList = {}
-    for lecture in lectureList:
-        if lecture.course in groupList:
-            groupList[lecture.course].append({
-                'title':lecture.title, 
-                'teaches':lecture.teaches,
-                'lid':lecture.lid,
-                'url':lecture.url
-            })
-        else:
-            groupList[lecture.course] = [{
-                'title':lecture.title, 
-                'teaches':lecture.teaches,
-                'lid':lecture.lid,
-                'url':lecture.url
-            }]
+    print(lectureList)
 
-    return render(request, 'webeye/lecture.html', {'lecturelist': groupList})
+    courseList = []
+    for lecture in lectureList:
+        if lecture.course in courseList:
+            continue
+        else:
+            courseList.append(lecture.course)
+
+    print(courseList)
+
+    return render(request, 'webeye/lecture.html', {'courseList': courseList})
 
 
 @login_required

@@ -31,20 +31,8 @@
     <li>강의 목록</li>
 </div>
     <table>
-        {% for key,values in lecturelist.items %}
-        <div>{{key}}</div>
-            {% for value in values %}
-                <ul>
-                    <img src= "https://i.imgur.com/8nLFCVPb.jpg" style="width:150px; height:150px;">
-                    <li>{{value.title}}</li>
-                    <li>{{value.teaches}}</li>
-                    <li>{{value.course}}</li>
-                    <li>{{value.url}}</li>
-                    <a href="{% url 'lecture_mark_toggle' value.lid %}">
-                        <button class="btn btn-success">찜하기</button>
-                    </a>
-                </ul>
-            {% endfor %}
+        {% for course in courseList %}
+            <div>{{course}}</div>
         {% endfor %}
         </table>
 </body>
