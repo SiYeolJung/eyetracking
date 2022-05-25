@@ -25,6 +25,9 @@ now = datetime.datetime.now()
 def basic(request):
     return render(request,'webeye/index.html')
 
+def project(request):
+    return render(request, 'webeye/project.html')
+
 def video(request):
     return render(request,'webeye/main.html')
 
