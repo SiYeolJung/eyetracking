@@ -31,19 +31,22 @@
     <li>강의 목록</li>
 </div>
     <table>
-        <div class="taebo">
-        <ul>
-            <img src= "https://i.imgur.com/8nLFCVPb.jpg"
-            style="width:150px; height:150px;">
-            <li>list.lecture_name</li>
-            <li>list.teacher</li>
-            <li>듣는 학생 수 : yam</li>
-            
-                <button class="btn btn-success">찜하기? 북마크? 암튼 감사합니다.</button></a>
-        </ul>
-
-</div>
-    </table>
+        {% for key,values in lecturelist.items %}
+        <div>{{key}}</div>
+            {% for value in values %}
+                <ul>
+                    <img src= "https://i.imgur.com/8nLFCVPb.jpg" style="width:150px; height:150px;">
+                    <li>{{value.title}}</li>
+                    <li>{{value.teaches}}</li>
+                    <li>{{value.course}}</li>
+                    <li>{{value.url}}</li>
+                    <a href="{% url 'lecture_mark_toggle' value.lid %}">
+                        <button class="btn btn-success">찜하기</button>
+                    </a>
+                </ul>
+            {% endfor %}
+        {% endfor %}
+        </table>
 </body>
 </html>
 {% endblock %}

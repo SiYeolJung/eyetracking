@@ -13,8 +13,11 @@
         <h2>
             <li>{{ user.username }}</li>
             찜한 강의들
-            {% for lect in user.profile.mark_lecture.all %}
-                <li>{{ lect.lecture_name }}</li>
+            {% for scrap in scraps %}
+            <ul>
+                <li>{{ scrap.lecture.title }}</li>
+                <li>{{ scrap.lecture.teaches }}</li>
+            </ul>
             {% endfor %}
             {% if user.username == user.username %}
             <a href="{% url 'myinfo' %}"><button class="btn btn-success">프로필 편집</button></a>

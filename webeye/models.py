@@ -1,20 +1,5 @@
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser
 
-
-# Create your models here.
-
-class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    description = models.TextField(blank=True)
-    nickname = models.CharField(max_length=40, blank=True)
-    mark_lecture = models.ManyToManyField('Lecture', blank=True, related_name='mark_users')
-
-class Lecture(models.Model):
-    lecture_name = models.CharField(max_length=40)
-    teacher = models.CharField(max_length=20)
-    mark_count = models.PositiveIntegerField(default=0)
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -130,25 +115,71 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class Lectures(models.Model):
+class Lecture(models.Model):
     lid = models.AutoField(primary_key=True)
-    uid = models.ForeignKey('User', models.DO_NOTHING, db_column='uid')
     title = models.CharField(max_length=30)
     teaches = models.CharField(max_length=20)
     adddate = models.DateTimeField(db_column='addDate', blank=True, null=True)  # Field name made lowercase.
+    course = models.CharField(max_length=30, blank=True, null=True)
+    url = models.CharField(max_length=2083)
 
     class Meta:
         managed = False
         db_table = 'lecture'
 
 
-class User(models.Model):
-    uid = models.AutoField(primary_key=True)
-    user = models.CharField(max_length=20)
-    description = models.CharField(max_length=20)
-    nickname = models.CharField(max_length=20)
-    joindate = models.DateTimeField(db_column='joinDate', blank=True, null=True)  # Field name made lowercase.
+class Scrap(models.Model):
+    owner = models.OneToOneField('Users', models.DO_NOTHING, db_column='owner', primary_key=True)
+    lecture = models.ForeignKey(Lecture, models.DO_NOTHING, db_column='lecture')
+    adddate = models.DateTimeField(db_column='addDate', blank=True, null=True)  # Field name made lowercase.
+    state = models.IntegerField()
 
     class Meta:
         managed = False
-        db_table = 'user'
+        db_table = 'scrap'
+        unique_together = (('owner', 'lecture'),)
+
+
+class Users(models.Model):
+    uid = models.IntegerField(primary_key=True)
+    id = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
+    password = models.CharField(max_length=100)
+    adddate = models.DateTimeField(db_column='addDate', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'users'
+
+
+class WebeyeLecture(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    lecture_name = models.CharField(max_length=40)
+    teacher = models.CharField(max_length=20)
+    mark_count = models.PositiveIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'webeye_lecture'
+
+
+class WebeyeProfile(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    description = models.TextField()
+    nickname = models.CharField(max_length=40)
+    user = models.OneToOneField(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'webeye_profile'
+
+
+class WebeyeProfileMarkLecture(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    profile = models.ForeignKey(WebeyeProfile, models.DO_NOTHING)
+    lecture = models.ForeignKey(WebeyeLecture, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'webeye_profile_mark_lecture'
+        unique_together = (('profile', 'lecture'),)
