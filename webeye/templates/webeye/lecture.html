@@ -14,7 +14,7 @@
 </div>
     <table>
         {% for course in courseList %}
-            <div><a href="{% url 'lecture_list' key %}" >{{key}}</a>{{course}}</div>
+            <div><a href="{% url 'lecture_list' course %}" ></a>{{course}}</div>
         {% endfor %}
         </table>
 </body>
