@@ -88,37 +88,41 @@ def myinfo(request, pk):
 
 
 def lecture(request):
-    lectureList =  Lecture.objects.all()
-    print(lectureList)
-
+    lectureList = Lecture.objects.all()
     courseList = []
-    for lecture in lectureList:
-        if lecture.course in courseList:
+    is_scrap = []
+    user = request.user
+    userSet = Users.objects.get(id=user)
+
+    for lect in lectureList:
+        if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
+            if lect.course not in is_scrap:
+                is_scrap.append(lect.course)
+        if lect.course in courseList:
             continue
         else:
-            courseList.append(lecture.course)
-
+            courseList.append(lect.course)
+    print(is_scrap)
     print(courseList)
-
-    return render(request, 'webeye/lecture.html', {'courseList': courseList})
+    return render(request, 'webeye/lecture.html', {'courseList': courseList, 'scrapList': is_scrap})
+    # return render(request, 'webeye/lecture.html', {'courseList': courseList})
 
 
 @login_required
-def lecture_mark_toggle(request, lecture_id):
-    get_object_or_404(Lecture, pk=lecture_id)
+def lecture_mark_toggle(request, lect):
     user = request.user
     userSet = Users.objects.get(id=user)
-    lectureSet = Lecture.objects.get(pk=lecture_id)
+    lectureSet = Lecture.objects.get(course=lect)
 
-    if Scrap.objects.filter(owner=userSet.uid, lecture = lecture_id).exists():
-        scrap = Scrap.objects.filter(owner=userSet.uid, lecture = lecture_id)
+    if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
+        scrap = Scrap.objects.filter(owner=userSet.uid, lecture=lect)
         state = scrap[0].state
         if state == 0:
             scrap.update(state=1)
         else:
             scrap.update(state=0)
     else:
-        Scrap.objects.create(owner = userSet, lecture = lectureSet, adddate = now.strftime('%Y-%m-%d %H:%M:%S'), state = 1)
+        Scrap.objects.create(owner=userSet, course=lect, adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=1)
 
     return redirect('lecture')
 
