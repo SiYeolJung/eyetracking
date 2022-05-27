@@ -25,6 +25,9 @@ now = datetime.datetime.now()
 def basic(request):
     return render(request,'webeye/index.html')
 
+def project(request):
+    return render(request, 'webeye/project.html')
+
 def video(request):
     return render(request,'webeye/main.html')
 
@@ -42,7 +45,7 @@ def signup(request):
             if Users.objects.all().exists():
                 latestUser = Users.objects.all().order_by('-uid')[0]
                 uid = latestUser.uid
-            else: 
+            else:
                 uid = 0
 
             Users.objects.create(uid = uid + 1, id = request.POST['username'], email = request.POST['email'], password = userObj.password, adddate = now.strftime('%Y-%m-%d %H:%M:%S'))
@@ -85,43 +88,45 @@ def myinfo(request, pk):
 
 
 def lecture(request):
-    lectureList =  Lecture.objects.all()
-    
-    groupList = {}
-    for lecture in lectureList:
-        if lecture.course in groupList:
-            groupList[lecture.course].append({
-                'title':lecture.title, 
-                'teaches':lecture.teaches,
-                'lid':lecture.lid,
-                'url':lecture.url
-            })
-        else:
-            groupList[lecture.course] = [{
-                'title':lecture.title, 
-                'teaches':lecture.teaches,
-                'lid':lecture.lid,
-                'url':lecture.url
-            }]
+    lectureList = Lecture.objects.all()
+    courseList = []
+    is_scrap = []
+    user = request.user
+    userSet = Users.objects.get(id=user)
 
-    return render(request, 'webeye/lecture.html', {'lecturelist': groupList})
+    for lect in lectureList:
+        if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
+            if lect.course not in is_scrap:
+                is_scrap.append(lect.course)
+        if lect.course in courseList:
+            continue
+        else:
+            courseList.append(lect.course)
+    print(is_scrap)
+    print(courseList)
+    return render(request, 'webeye/lecture.html', {'courseList': courseList, 'scrapList': is_scrap})
+    # return render(request, 'webeye/lecture.html', {'courseList': courseList})
 
 
 @login_required
-def lecture_mark_toggle(request, lecture_id):
-    lect = get_object_or_404(Lecture, pk=lecture_id)
+def lecture_mark_toggle(request, lect):
     user = request.user
     userSet = Users.objects.get(id=user)
-    lectureSet = Lecture.objects.get(pk=lecture_id)
+    lectureSet = Lecture.objects.get(course=lect)
 
-    if Scrap.objects.filter(owner=userSet.uid, lecture = lecture_id).exists():
-        scrap = Scrap.objects.filter(owner=userSet.uid, lecture = lecture_id)
+    if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
+        scrap = Scrap.objects.filter(owner=userSet.uid, lecture=lect)
         state = scrap[0].state
         if state == 0:
             scrap.update(state=1)
         else:
             scrap.update(state=0)
     else:
-        Scrap.objects.create(owner = userSet, lecture = lectureSet, adddate = now.strftime('%Y-%m-%d %H:%M:%S'), state = 1)
+        Scrap.objects.create(owner=userSet, course=lect, adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=1)
 
     return redirect('lecture')
+
+
+def lecture_list(request, course):
+    lect_list = Lecture.objects.filter(course=course)
+    return render(request, 'webeye/lecture_list.html', {'lecturelist': lect_list})
