@@ -40,8 +40,6 @@ colors = torch.as_tensor([i for i in range(21)])[:, None] * palette
 colors = (colors % 255).numpy().astype("uint8")
 
 
-
-
 class WSConsumer(WebsocketConsumer):
     def analysis(self, video_url,currentTime):
         if currentTime is not None:
@@ -58,8 +56,8 @@ class WSConsumer(WebsocketConsumer):
                 print(exitcode, out.decode('utf8'), err.decode('utf8'))
             else:
                 print('Completed')
-
-        frame = Image.open('test.jpg')
+        imagePath = '/home/ubuntu/eyetracking/test.jpg'
+        frame = Image.open(imagePath)
         frame = np.array(frame)
 
         color_coverted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 

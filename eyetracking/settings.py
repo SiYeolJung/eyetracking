@@ -42,7 +42,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','3.34.130.95']
+ALLOWED_HOSTS = ['127.0.0.1','54.180.30.120','gazetrack.tk']
 
 
 # Application definition
@@ -88,7 +88,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'eyetracking.wsgi.application'
-ASGI_APPLICATION = 'eyetracking.asgi.application'
+ASGI_APPLICATION = 'eyetracking.routing.application'
 
 
 # Database
@@ -155,3 +155,12 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

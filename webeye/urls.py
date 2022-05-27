@@ -1,8 +1,13 @@
 from django.urls import path
+from django.http import HttpResponse
 
 from . import views
 
+def heart_beat(request):
+    return HttpResponse("OK!", content_type='text/plain')
+
 urlpatterns = [
+    path('^heart_beat/', heart_beat),
     path('index/', views.basic, name='index'),
     path('', views.video, name='video'),
     path('signup/', views.signup, name='signup'),
