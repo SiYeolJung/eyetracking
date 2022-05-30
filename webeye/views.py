@@ -89,41 +89,42 @@ def myinfo(request, pk):
 
 def lecture(request):
     lectureList = Lecture.objects.all()
-    courseList = []
-    is_scrap = []
     user = request.user
     userSet = Users.objects.get(id=user)
+    scrap = Scrap.objects.filter(owner=userSet.uid)
+    courseList = []
+    is_scrap = []
 
-    for lect in lectureList:
-        if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
-            if lect.course not in is_scrap:
-                is_scrap.append(lect.course)
-        if lect.course in courseList:
-            continue
-        else:
+    # Scrap.objects.filter(owner=userSet).delete()
+
+    for lect in lectureList:    # 모든 lecture 돌면서
+        if lect.course not in courseList:
             courseList.append(lect.course)
-    print(is_scrap)
-    print(courseList)
+        else:
+            continue
+        if not scrap.filter(lecture=lect).exists():  # 일단 scrap에 존재도 안함
+            Scrap.objects.create(owner=userSet, lecture=lect, adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=0)
+        elif scrap.filter(lecture=lect, state=1):
+            is_scrap.append(lect.course)
     return render(request, 'webeye/lecture.html', {'courseList': courseList, 'scrapList': is_scrap})
-    # return render(request, 'webeye/lecture.html', {'courseList': courseList})
 
 
 @login_required
-def lecture_mark_toggle(request, lect):
+def lecture_mark_toggle(request, course):
     user = request.user
     userSet = Users.objects.get(id=user)
-    lectureSet = Lecture.objects.get(course=lect)
-
-    if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
-        scrap = Scrap.objects.filter(owner=userSet.uid, lecture=lect)
-        state = scrap[0].state
-        if state == 0:
-            scrap.update(state=1)
-        else:
-            scrap.update(state=0)
+    lect = Lecture.objects.filter(course=course)
+    for index, i in enumerate(lect.values()):
+        if not Scrap.objects.filter(owner=userSet.uid, lecture=i['lid']).exists():
+            Scrap.objects.create(owner=userSet, lecture=lect[index], adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=1)
     else:
-        Scrap.objects.create(owner=userSet, course=lect, adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=1)
-
+        scrap = Scrap.objects.filter(owner=userSet.uid, lecture__in=lect, )
+        for index, i in enumerate(scrap.values()):
+            state = i['state']
+            if state == 1:
+                Scrap.objects.filter(owner=userSet.uid, lecture__in=lect, ).update(state=0)
+            else:
+                Scrap.objects.filter(owner=userSet.uid, lecture__in=lect, ).update(state=1)
     return redirect('lecture')
 
 
