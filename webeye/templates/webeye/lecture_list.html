@@ -1,16 +1,28 @@
 {% extends "webeye/base.html" %}
-
 {% block content %}
-{% block body %}
-<div class="row">
-    <div class="col-8">
-        {% for lecture in lecturelist %}
-            <li>{{lecture.title}}</li>
-            <li>{{lecture.url}}</li>
-        {% endfor %}
-    </div>
-</div>
+{% load static %}
 
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/lecture.css' %}">
+    </head>
+<body>
+        <div class ="container">
+            <div class="inner">
+                <li>{{course}}</li>
+                <table>
+                    {% for lecture in lecturelist %}
+                        <div class="item-card">
+                            <li class= "card-wrapper">{{lecture.title}}</li>
+                            <button class= "btn lecture-btn"  onclick="location.href='{{lecture.url}}'">
+                                강의 맛보기
+                            </button>
+                        </div>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+</body>
+</html>
 {% endblock %}
-{% endblock %}
-

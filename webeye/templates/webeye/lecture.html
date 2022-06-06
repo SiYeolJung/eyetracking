@@ -5,25 +5,38 @@
 
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/lecture.css' %}">
     </head>
     
 <body>
     <div class ="container">
-    <li>강의 목록</li>
-</div>
-    <table>
-        {% for course in courseList %}
-            <div><a href="{% url 'lecture_list' course %}" >{{course}}</a></div>
-            {% if course in scrapList %}
-                <a href="{% url 'lecture_mark_toggle' course %}">
-                        <button class="btn btn-success">이미 찜됨</button></a>
-            {% else %}
-                <a href="{% url 'lecture_mark_toggle' course %}">
-                        <button class="btn btn-success">찜하기</button></a>
-            {% endif %}
-        {% endfor %}
-        </table>
+        <div class="inner">
+            <li>강의 목록</li>
+            <table>
+                {% for course in courseList %}
+                    <div class="item-card">
+                        <div>
+                            <a class= "card-wrapper" href="{% url 'lecture_list' course %}" >{{course}}</a>
+                        </div>
+                    {% if course in scrapList %}
+                        <div>
+                            <button class="btn-scraped" value=""> 
+                                <a class= "card-wrapper" href="{% url 'lecture_mark_toggle' course %}"></a>
+                            </button>
+                        </div>
+                    {% else %}
+                        <div>
+                            <button class="btn-unscraped" value=""> 
+                                <a class= "card-wrapper" href="{% url 'lecture_mark_toggle' course %}"></a>
+                            </button>
+                        </div>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+            </table>      
+        </div>
+    </div>
 </body>
 </html>
 {% endblock %}

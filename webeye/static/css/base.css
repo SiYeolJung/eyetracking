@@ -1,198 +1,200 @@
 /*common*/
 a {
-    text-decoration:none;
+  text-decoration:none;
 }
 
 li {
-    list-style:none;
+  list-style:none;
 }
-  
+
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #FFFFFF;
+font-family: 'Roboto', sans-serif;
+background-color: #FFFFFF;
 }
 
 .btn {
-    height:35px;
-    border:2px solid #000;
-    color:#000;
-    background: #fff;
-    border-radius:4px;
-    display:flex;
-    align-items:center;
-    justify-content: center;
-    padding:0 12px;
-    font-size:14px;
-    font-weight:500;
-    line-height:1.5;
-    cursor:pointer;
-    box-sizing:border-box;
-    position:relative;
+  height:35px;
+  border:2px solid rgb(155, 155, 155);
+  box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 1%);
+  color:#000;
+  background: #fff;
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  padding:0 12px;
+  font-size:14px;
+  font-weight:500;
+  line-height:1.5;
+  cursor:pointer;
+  box-sizing:border-box;
+  position:relative;
+  margin-right:5px;
 }
-  
+
 .btn:hover::before {
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.07);
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.07);
 }
 
 .input--text{
-    height:34px;
-    padding:0 10px;
-    border:1px solid #000;
-    border-radius:5px;
-    box-sizing:border-box;
-    outline:none;
-    box-shadow:inset 0 1px 2px rgba(0,0,0,0.075);
-    font-size:16px;
+  height:34px;
+  padding:0 10px;
+  border:1px solid #000;
+  border-radius:5px;
+  box-sizing:border-box;
+  outline:none;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.075);
+  font-size:16px;
 }
-  
+
 .btn.btn--primary {
-    border:2px solid #000;
-    color:#000;
-    background: #fff;
+  border:2px solid rgb(155, 155, 155);
+  color:#000;
+  background: #fff;
 }
-  
+
 /*HEADER*/
 header{
-    position:relative;
-    /* background:rgb(247, 244, 244); */
+  position:relative;
+  /* background:rgb(247, 244, 244); */
 }
-  
+
 header .inner{
-    height:78px;
-    max-width:1200px;
-    margin:0 auto;
-    box-sizing:border-box;
-    position:relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  height:78px;
+  max-width:1200px;
+  margin:0 auto;
+  box-sizing:border-box;
+  position:relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-  
+
 header .menu-group{
-    display:flex;
-    align-items:center;
-    /* height:100%; */
+  display:flex;
+  align-items:center;
+  /* height:100%; */
 }
 
 header .logo a { 
-  font-family: 'Oxygen', sans-serif;
-    font-size:40px;
-    font-weight: 1;
-    color: black;
+font-family: 'Oxygen', sans-serif;
+  font-size:40px;
+  font-weight: 1;
+  color: black;
 }
 
 header .main-menu {
-    display:flex;
-    list-style:none;
+  display:flex;
+  list-style:none;
 }
-  
+
 /* header .main-menu li {
-    display:inline-block;
+  display:inline-block;
 } */
 
 header .main-menu li a {
-    display:block;
-    padding:40px;
-    /* color:white; */
-    color:rgb(125, 124, 124);
-    font-family: 'Nanum Gothic Coding', monospace;
-    font-weight: 1000;
-    font-size:15px;
+  display:block;
+  padding:40px;
+  /* color:white; */
+  color:rgb(125, 124, 124);
+  font-family: 'Nanum Gothic Coding', monospace;
+  font-weight: 1000;
+  font-size:15px;
 }
 
 header .main-menu li a:hover {
-    color:#000;
+  color:#000;
 }
 
 header .sign-group {
-    display:flex;
-    align-items:center;
-    height:100%;
+  display:flex;
+  align-items:center;
+  height:100%;
 }
 
 header .btn-group{
-    order:3;
-    display:flex;
+  order:3;
+  display:flex;
 }
 
 header .btn-group .sign-in {
-    margin-right:4px;
+  margin-right:4px;
 }
 
 #toggle-btn {
-      display:none;
-      background:url("https://raw.githubusercontent.com/ParkYoungWoong/GitHub-Responsive/09fc6b622a6be96b288435816738e636988457f7/img/menu-toggle.svg");
-      background-size:18px;
-      font-family: 'Oxygen', sans-serif;
-      width:18px;
-      height:24px;
-      position:absolute;
-      top:16px;
-      right:20px;
-      cursor:pointer;
-      text-indent:-9999px;
-  }
-  
+    display:none;
+    background:url("https://raw.githubusercontent.com/ParkYoungWoong/GitHub-Responsive/09fc6b622a6be96b288435816738e636988457f7/img/menu-toggle.svg");
+    background-size:18px;
+    font-family: 'Oxygen', sans-serif;
+    width:18px;
+    height:24px;
+    position:absolute;
+    top:16px;
+    right:20px;
+    cursor:pointer;
+    text-indent:-9999px;
+}
+
 /*MEDIA*/
 @media (max-width:1200px){
-    header .inner{
-      max-width:none;
-      height:auto;
-      padding:0 20px;
-      display:block;
-    }
-    header .menu-group,
-    header .sign-group{
-      float:none;
-    }
-   
-    header .menu-group{
-      display:block;
-    }
+  header .inner{
+    max-width:none;
+    height:auto;
+    padding:0 20px;
+    display:block;
+  }
+  header .menu-group,
+  header .sign-group{
+    float:none;
+  }
+ 
+  header .menu-group{
+    display:block;
+  }
 
-    header .main-menu{
-      display:block;
-      margin-bottom:10px;
-    }
-    header .logo{
-      padding: 12px 0;
-    }
-    header .main-menu li{
-      border-top:1px solid #000;
-    }
-    header .main-menu li a{
-      padding: 16px 0;
-      /* text-align: center; */
-    }
-    header .sign-group{
-      display:block;
-    }
-    header .btn-group{
-      display:block;
-    }
-    header .btn-group .btn{
-      justify-content:center;
-    }
-    header .btn-group .sign-in{
-      margin-right:0;
-      margin-bottom:12px;
-    }
+  header .main-menu{
+    display:block;
+    margin-bottom:10px;
+  }
+  header .logo{
+    padding: 12px 0;
+  }
+  header .main-menu li{
+    border-top:1px solid #000;
+  }
+  header .main-menu li a{
+    padding: 16px 0;
+    /* text-align: center; */
+  }
+  header .sign-group{
+    display:block;
+  }
+  header .btn-group{
+    display:block;
+  }
+  header .btn-group .btn{
+    justify-content:center;
+  }
+  header .btn-group .sign-in{
+    margin-right:0;
+    margin-bottom:12px;
+  }
+  
+  header .toggle{
+    display:none;
     
-    header .toggle{
-      display:none;
-      
-    }
-    header .toggle.on{
-      display:block;
-      
-    }
-    #toggle-btn{ 
-        display:block;   
-    }
+  }
+  header .toggle.on{
+    display:block;
+    
+  }
+  #toggle-btn{ 
+      display:block;   
+  }
 }
