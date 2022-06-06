@@ -4,7 +4,6 @@
 {% block body %}
 <div class="row">
     <div class="col-8">
-        <div>{{ lecturelist }}</div>
         {% for lecture in lecturelist %}
             <li>{{lecture.title}}</li>
             <li>{{lecture.url}}</li>

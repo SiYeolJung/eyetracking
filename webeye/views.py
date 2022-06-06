@@ -79,7 +79,13 @@ def mypage(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     uid = Users.objects.get(id=user.username).uid
     myScrap = Scrap.objects.all().select_related('owner').select_related('lecture').filter(owner = uid, state = 1)
-    return render(request, 'webeye/mypage.html', {'user': user, 'scraps':myScrap})
+    courseList = []
+    for lect in myScrap.values():    # 모든 lecture 돌면서
+        temp = Lecture.objects.filter(lid=lect['lecture_id']).values()
+        if temp[0]['course'] not in courseList:
+            courseList.append(temp[0]['course'])
+    print(courseList)
+    return render(request, 'webeye/mypage.html', {'user': user, 'scraps':courseList})
 
 
 def myinfo(request, pk):
