@@ -18,9 +18,6 @@
                 <li><div><a href="{% url 'lecture_list' scrap %}" >{{scrap}}</a></div></li>
             </ul>
             {% endfor %}
-{#            {% if user.username == user.username %}#}
-{#            <a href="{% url 'myinfo' %}"><button class="btn btn-success">프로필 편집</button></a>#}
-{#            {% endif %}#}
         </h2>
         <p>{{ user.profile.nickname }}</p>
         <p>{{ user.profile.description }}</p>

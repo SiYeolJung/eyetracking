@@ -18,6 +18,7 @@
                             <button class= "btn lecture-btn"  onclick="location.href='{{lecture.url}}'">
                                 강의 맛보기
                             </button>
+                            <a href="{% url 'to_video' lecture.lid %}" class="btn mypage">진짜진짜</a>
                         </div>
                     {% endfor %}
                 </table>

@@ -14,10 +14,10 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('logout/', views.logout, name='logout'),
     path('<int:pk>/', views.mypage, name='mypage'),
-    path('myinfo/', views.myinfo, name='myinfo'),
     path('lecture/', views.lecture, name='lecture'),
     path('project/', views.project, name='project'),
     path('lecture_mark_toggle/<str:course>/',
          views.lecture_mark_toggle, name="lecture_mark_toggle"),
-    path('<str:course>/', views.lecture_list, name='lecture_list')
+    path('<str:course>/', views.lecture_list, name='lecture_list'),
+    path('to_video/<int:lid>/', views.to_video, name='to_video')
 ]

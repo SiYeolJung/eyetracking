@@ -81,51 +81,62 @@ def mypage(request, pk):
     user = get_object_or_404(get_user_model(), pk=pk)
     uid = Users.objects.get(id=user.username).uid
     myScrap = Scrap.objects.all().select_related('owner').select_related('lecture').filter(owner = uid, state = 1)
-    return render(request, 'webeye/mypage.html', {'user': user, 'scraps':myScrap})
-
-
-def myinfo(request, pk):
-    user = get_object_or_404(get_user_model(), pk=pk)
-    return render(request, 'webeye/myinfo.html', {'user': user})
+    courseList = []
+    for lect in myScrap.values():    # 모든 lecture 돌면서
+        temp = Lecture.objects.filter(lid=lect['lecture_id']).values()
+        if temp[0]['course'] not in courseList:
+            courseList.append(temp[0]['course'])
+    print(courseList)
+    return render(request, 'webeye/mypage.html', {'user': user, 'scraps':courseList})
 
 
 def lecture(request):
     lectureList = Lecture.objects.all()
-    courseList = []
-    is_scrap = []
     user = request.user
     userSet = Users.objects.get(id=user)
+    scrap = Scrap.objects.filter(owner=userSet.uid)
+    courseList = []
+    is_scrap = []
 
-    for lect in lectureList:
-        if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
-            if lect.course not in is_scrap:
-                is_scrap.append(lect.course)
-        if lect.course in courseList:
-            continue
-        else:
+    # Scrap.objects.filter(owner=userSet).delete()
+
+    for lect in lectureList:    # 모든 lecture 돌면서
+        if lect.course not in courseList:
             courseList.append(lect.course)
+        else:
+            continue
+        if not scrap.filter(lecture=lect).exists():  # 일단 scrap에 존재도 안함
+            Scrap.objects.create(owner=userSet, lecture=lect, adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=0)
+        elif scrap.filter(lecture=lect, state=1):
+            is_scrap.append(lect.course)
     return render(request, 'webeye/lecture.html', {'courseList': courseList, 'scrapList': is_scrap})
 
 
 @login_required
-def lecture_mark_toggle(request, lect):
+def lecture_mark_toggle(request, course):
     user = request.user
     userSet = Users.objects.get(id=user)
-    lectureSet = Lecture.objects.get(course=lect)
-
-    if Scrap.objects.filter(owner=userSet.uid, lecture=lect).exists():
-        scrap = Scrap.objects.filter(owner=userSet.uid, lecture=lect)
-        state = scrap[0].state
-        if state == 0:
-            scrap.update(state=1)
-        else:
-            scrap.update(state=0)
+    lect = Lecture.objects.filter(course=course)
+    for index, i in enumerate(lect.values()):
+        if not Scrap.objects.filter(owner=userSet.uid, lecture=i['lid']).exists():
+            Scrap.objects.create(owner=userSet, lecture=lect[index], adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=1)
     else:
-        Scrap.objects.create(owner=userSet, course=lect, adddate=now.strftime('%Y-%m-%d %H:%M:%S'), state=1)
-
+        scrap = Scrap.objects.filter(owner=userSet.uid, lecture__in=lect, )
+        for index, i in enumerate(scrap.values()):
+            state = i['state']
+            if state == 1:
+                Scrap.objects.filter(owner=userSet.uid, lecture__in=lect, ).update(state=0)
+            else:
+                Scrap.objects.filter(owner=userSet.uid, lecture__in=lect, ).update(state=1)
     return redirect('lecture')
 
 
 def lecture_list(request, course):
     lect_list = Lecture.objects.filter(course=course)
     return render(request, 'webeye/lecture_list.html', {'lecturelist': lect_list})
+
+
+def to_video(request, lid):
+    lect = Lecture.objects.get(lid=lid)
+    video_url = lect.url
+    return render(request, 'webeye/main.html', {'video_url': video_url})
