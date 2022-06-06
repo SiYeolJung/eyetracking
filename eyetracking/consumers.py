@@ -87,14 +87,20 @@ class WSConsumer(WebsocketConsumer):
         xprediction = int(xprediction)
         yprediction = int(yprediction)
         
-        if data is not None:
+        if type(data) == list:
             data = np.array(data)
-            cal_xprediction = xprediction-380 
+            
+            cal_xprediction = xprediction-388 
             cal_yprediction = yprediction-120
             print('xprediction:',xprediction,'yprediction:',yprediction)
             print('cal_xprediction:',cal_xprediction,'yprediction:',cal_yprediction)
-            if 0<=cal_xprediction and cal_xprediction+5<480 and 0<=cal_yprediction and cal_yprediction+5<272:
-                if sum(sum(data[cal_yprediction:cal_yprediction+5,cal_xprediction:cal_xprediction+5])) == 0:
+            print(type(data))
+            print(data.shape)
+            if (0<=cal_xprediction and cal_xprediction+5<800) and (0<=cal_yprediction and cal_yprediction+5<500) and type(sum(data[cal_yprediction:(cal_yprediction+5),cal_xprediction:(cal_xprediction+5)])) != int  :
+                # print(sum(sum(data[cal_yprediction:cal_yprediction+5,cal_xprediction:cal_xprediction+5])))
+                # print(type(sum(data[cal_yprediction:(cal_yprediction+5),cal_xprediction:(cal_xprediction+5)])))
+                # print(type(sum(sum(data[cal_yprediction:(cal_yprediction+5),cal_xprediction:(cal_xprediction+5)]))))
+                if sum(sum(data[cal_yprediction:(cal_yprediction+5),cal_xprediction:(cal_xprediction+5)])) == 0:
                     bool_concentrate = True
                 else: 
                     bool_concentrate = False
@@ -103,6 +109,7 @@ class WSConsumer(WebsocketConsumer):
             data = data.tolist()
         else:
             bool_concentrate = False
+            data = None
         print(bool_concentrate)
         self.send(json.dumps({'xprediction':xprediction, 'yprediction':yprediction,'data':data,'bool_concentrate':bool_concentrate}))
 
@@ -111,5 +118,4 @@ class WSConsumer(WebsocketConsumer):
         video_url = text_data_json['video_src'] #프론트 단에서 넘겨온 값을 토대로 소스 추출 
         self.analysis(video_url,text_data_json['currentTime'])
         self.mindpoint(text_data_json['xprediction'],text_data_json['yprediction'],text_data_json['data'])
-
 
