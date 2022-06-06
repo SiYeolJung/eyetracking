@@ -46,10 +46,10 @@
     </ul>
 
     <section id="container">
-            <video id="video_player" controls class="video_player" >
+            <video id="video_player" controls class="video_player" width="800" height="500">
                 <source src="http://WSTR.ebsi.co.kr/M45K2201/S20210001324/S20210001324_500K_100030017375.mp4" type="video/mp4">
             </video>
-            <h1 id="app">{{ text }}</h1>
+            <!-- <h1 id="app">{{ text }}</h1> -->
     </section>
 </body>
     <script>
@@ -93,7 +93,7 @@
         }).begin();
 
         let socket = new WebSocket('wss://gazetrack.tk:8443/ws/');
-        
+        // let socket = new WebSocket('ws://localhost:8000/ws/')
         socket.onerror =function(event){
             console.log(event);
         }
@@ -130,8 +130,13 @@
         
         socket.onmessage = function(event){
             data = JSON.parse(event.data).data;
-            bool_concentrate = JSON.parse(event.data).bool_concentrate
-            document.querySelector('#app').innerText = bool_concentrate;
+            bool_concentrate = JSON.parse(event.data).bool_concentrate;
+            if (!bool_concentrate){
+                document.querySelector('body').style.backgroundColor = 'red';
+            }
+            else{
+                document.querySelector('body').style.backgroundColor = 'white';
+            }
             var vision_data = {xprediction,yprediction,data};
             send_data['xprediction'] = xprediction;
             send_data['yprediction'] = yprediction;
@@ -144,4 +149,3 @@
 
 </html>
 {% endblock %}
-
