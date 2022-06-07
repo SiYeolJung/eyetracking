@@ -116,6 +116,7 @@ header .sign-group {
   display:flex;
   align-items:center;
   height:100%;
+  font-family: 'Roboto', sans-serif;
 }
 
 header .btn-group{
@@ -131,7 +132,6 @@ header .btn-group .sign-in {
     display:none;
     background:url("https://raw.githubusercontent.com/ParkYoungWoong/GitHub-Responsive/09fc6b622a6be96b288435816738e636988457f7/img/menu-toggle.svg");
     background-size:18px;
-    font-family: 'Oxygen', sans-serif;
     width:18px;
     height:24px;
     position:absolute;

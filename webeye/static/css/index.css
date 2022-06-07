@@ -58,6 +58,10 @@ button {
     color:white;
 }
 
+button a {
+    color:white;
+}
+
 button:active {
     box-shadow: 1px 1px 0 rgb(0,0,0,0.5);
     position: relative;
@@ -66,4 +70,4 @@ button:active {
   
 button:hover {
     background-color: rgb(209, 174, 255);
-  }
+}

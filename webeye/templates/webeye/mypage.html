@@ -2,26 +2,46 @@
 
 {% block content %}
 {% block body %}
-<div class="row">
-    <div class="col-4">
-        <img src= {% if user.profile.image %}"{{ user.profile.image.url }}"
-             src= {% else %}"https://i.stack.imgur.com/34AD2.jpg"{% endif %}
-            width="150rem" style="border-radius: 50%;" alt="">
 
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>my page</title>
+</head>
+<body>
+    <div class="container">
+        <div class="inner">
+            <div class="profile">
+                <div class="img">
+                    <img src= {% if user.profile.image %}"{{ user.profile.image.url }}"
+                    src= {% else %}"https://i.stack.imgur.com/34AD2.jpg"{% endif %}
+                    width="150rem" style="border-radius: 50%; text-align: center;" alt="">
+                </div>
+                <div class="hdr-text">{{ user.username }}님</div>
+                <div class="hdr-email">{{user.email}}</div>
+            </div>
+            <div class="scrap-list">
+                <div>
+                    <div class="hdr-text">내가 찜한 강의</div>
+                    {% for scrap in scraps %}
+                    <div class="item-card">
+                        <li><div><a href="{% url 'lecture_list' scrap %}" >{{scrap}}</a></div></li>
+                    </div>
+                    {% endfor %}
+                </div>
+                <p>{{ user.profile.nickname }}</p>
+                <p>{{ user.profile.description }}</p>
+            </div>
+        </div>
     </div>
-    <div class="col-8">
-        <h2>
-            <li>{{ user.username }}</li>
-            찜한 강의들
-            {% for scrap in scraps %}
-            <ul>
-                <li><div><a href="{% url 'lecture_list' scrap %}" >{{scrap}}</a></div></li>
-            </ul>
-            {% endfor %}
-        </h2>
-        <p>{{ user.profile.nickname }}</p>
-        <p>{{ user.profile.description }}</p>
-    </div>
-</div>
+</body>
 {% endblock %}
 {% endblock %}

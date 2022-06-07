@@ -34,6 +34,11 @@
     margin-bottom: 30px;
 }
 
+.btn-section{
+    display:flex;
+    margin-right:30px;
+}
+
 .item-card .lecture-txt{
     font-size:10px;
 }
@@ -44,13 +49,8 @@
 }
 
 .card-wrapper .lecture-btn{
-    /* position: absolute; */
     width:40px;
 }
-
-/* .card-wrapper .lecture-btn a{
-    width:40px;
-} */
 
 .btn-unscraped{
     margin-left:200px;

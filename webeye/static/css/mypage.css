@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .inner {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner .profile{
+    margin-right:80px;
+}
+
+.inner .profile .img{
+    display:flex;
+    justify-content: center;
+}
+
+.inner .scrap-list{
+    margin-left: 50px;
+}
+
+.hdr-text{
+    margin:30px 0 30px 0;
+    font-size:30px;
+    font-weight: bold;
+    font-family: 'Nanum Gothic Coding', monospace;
+    text-align: center;
+}
+
+.profile .hdr-email{
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+.item-card{
+    display:flex;
+    width: 500px;
+    height:100px;
+    border-radius: 14px;
+    background-color: var(--colorBg10);
+    box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 9%);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    color:black;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+.item-card a{
+    color:black;
+}
