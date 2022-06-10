@@ -73,6 +73,16 @@ section video {
     grid-area:Pt9;
 }
 
+#modal{
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-weight: bold;
+}
+
+#modal ul li{
+    font-size:16px;
+    margin-top:18px;
+}
+
 #modal.modal-overlay {
     width: 100%;
     height: 100%;
@@ -130,20 +140,22 @@ section video {
 }
 
 #modal .content {
-    margin-top: 20px;
+    margin-top: 35px;
     padding: 0px 10px;
     text-shadow: 1px 1px 2px gray;
     color: white;
 }
 
 #modal .btn-container{
-    margin-top: 25px;
+    margin-top: 30px;
     display:flex;
     align-items: center;
     justify-content: center;
 }
 
 #modal .btn{
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-weight: bold;
     width: 180px;
     height: 50px;
     border-radius: 10px;
@@ -153,6 +165,6 @@ section video {
     box-shadow: 1px 2px 0 rgb(0,0,0,0.5);
     font-weight: bold;
     font-size:18px;
-    color:rgb(104, 104, 104);
+    color:rgb(69, 68, 68);
     display:block;
 }
