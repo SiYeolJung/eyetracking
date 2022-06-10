@@ -8,8 +8,10 @@ def heart_beat(request):
 
 urlpatterns = [
     path('^heart_beat/', heart_beat),
-    path('index/', views.basic, name='index'),
-    path('', views.video, name='video'),
+    # path('index/', views.basic, name='index'),
+    path('', views.basic, name='index'),
+    # path('', views.video, name='video'),
+    path('index/', views.video, name='video'),
     path('signup/', views.signup, name='signup'),
     path('signin/', views.signin, name='signin'),
     path('logout/', views.logout, name='logout'),
