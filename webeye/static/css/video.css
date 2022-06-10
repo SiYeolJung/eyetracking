@@ -99,7 +99,7 @@ section video {
     border-radius: 10px;
     border: 1px solid rgba( 255, 255, 255, 0.18 );
     width: 350px;
-    height: 200px;
+    height: 270px;
     position: relative;
     top: -100px;
     padding: 30px;
@@ -107,8 +107,6 @@ section video {
     margin-top:100px
 }
 
-#modal .modal-inner{
-}
 
 #modal .title {
     padding-left: 10px;
@@ -138,6 +136,23 @@ section video {
     color: white;
 }
 
-#modal button{
-    margin:0 auto;
+#modal .btn-container{
+    margin-top: 25px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modal .btn{
+    width: 180px;
+    height: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    background-color: #ffffff;
+    box-shadow: 1px 2px 0 rgb(0,0,0,0.5);
+    font-weight: bold;
+    font-size:18px;
+    color:rgb(104, 104, 104);
+    display:block;
 }
