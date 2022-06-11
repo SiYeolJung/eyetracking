@@ -67,10 +67,15 @@
     </div>
 
     <section id="container">
-            <video id="video_player" controls class="video_player" width="800" height="500">
-                <source src={{ video_url }} type="video/mp4">
-            </video>
-            <!-- <h1 id="app">{{ text }}</h1> -->
+        <div class = "video-inner">
+            <div>
+                <video id="video_player" controls class="video_player" width="800" height="500">
+                    <source src={{ video_url }} type="video/mp4">
+                </video>
+                <h1 class="video-alert">강의에 집중해주세요!</h1>
+                <audio class="audio-alert"><source src = "{% static 'img/alert.mp3' %}" type="audio/mp3"></audio>
+            </div>
+        </div>
     </section>
 </body>
 
@@ -82,25 +87,21 @@
             modal.style.display = "none"
         }
 
-        // element which needs to enter full-screen mode
-        // var element = document.querySelector("#test")
+        function requestFullScreen() {
+            let element = document.querySelector("html");
+            console.log(element)
+            var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
 
-    function requestFullScreen() {
-        let element = document.querySelector("html");
-        console.log(element)
-    // Supports most browsers and their versions.
-        var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-
-        if (requestMethod) { // Native full screen.
-            requestMethod.call(element);
-            modalClose();
-        } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
-            var wscript = new ActiveXObject("WScript.Shell");
-            if (wscript !== null) {
-                wscript.SendKeys("{F11}");
+            if (requestMethod) { 
+                requestMethod.call(element);
+                modalClose();
+            } else if (typeof window.ActiveXObject !== "undefined") {
+                var wscript = new ActiveXObject("WScript.Shell");
+                if (wscript !== null) {
+                    wscript.SendKeys("{F11}");
+                }
             }
         }
-    }
 
         let PointCalibrate = 0;
         let CalibrationPoints = {};
@@ -125,6 +126,10 @@
             if(PointCalibrate === 9) {
                 document.getElementById('calibrationDiv').style.display = 'none';
                 document.getElementById('container').style.display = 'flex';
+
+                const gazeDot = document.getElementById("webgazerGazeDot");
+                gazeDot.style.setProperty("width","0px","important");
+                gazeDot.style.setProperty("height","0px","important");
             }
         }
     </script>
@@ -138,7 +143,7 @@
             }
             xprediction = data.x; 
             yprediction = data.y; 
-            console.log(`x:${xprediction} y:${yprediction}`); 
+            // console.log(`x:${xprediction} y:${yprediction}`); 
         }).begin();
 
         let socket = new WebSocket('wss://gazetrack.tk:8443/ws/');
@@ -177,15 +182,46 @@
             socket.send(JSON.stringify(send_data));
         })
         
+        const concentrateList = [];
+
+        let concentratePercent = 0;
+
+        let total = 0;
+
+        let percent = 0;
+
+        const reducer = (accumulator, curr) => accumulator + curr;
+
+        const calPercent = (list) => {
+            total = list.reduce(reducer);
+            if(total == 0) {
+                concentratePercent = 0;
+            } else {
+                concentratePercent = total / (concentrateList.length) * 100    
+            }
+            return concentratePercent;
+        }
+    
+
         socket.onmessage = function(event){
             data = JSON.parse(event.data).data;
             bool_concentrate = JSON.parse(event.data).bool_concentrate;
             if (!bool_concentrate){
-                document.querySelector('body').style.backgroundColor = 'red';
+                document.querySelector('.video-alert').style.display = 'block';
+                concentrateList.push(0);
+                percent = calPercent(concentrateList);
+                console.log(percent)
+                document.querySelector('.audio-alert').play();
+                document.querySelector('.video-inner').style.background = '#ed5d5d'
             }
             else{
-                document.querySelector('body').style.backgroundColor = 'white';
+                document.querySelector('.video-alert').style.display = 'none';
+                concentrateList.push(1);
+                percent = calPercent(concentrateList);
+                console.log(percent)
+                document.querySelector('.video-inner').style.background = 'white'
             }
+            
             var vision_data = {xprediction,yprediction,data};
             send_data['xprediction'] = xprediction;
             send_data['yprediction'] = yprediction;

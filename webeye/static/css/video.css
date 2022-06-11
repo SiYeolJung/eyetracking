@@ -168,3 +168,26 @@ section video {
     color:rgb(69, 68, 68);
     display:block;
 }
+
+/* #webgazerGazeDot {
+    display: block;
+} */
+
+.video-inner{
+    display:flex;
+    width: 900px;
+    height:650px;
+    border-radius: 14px;
+    background-color: var(--colorBg10);
+    box-shadow: 4px 12px 30px 6px rgba(255, 98, 98, 0.09);
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.video-inner .video-alert{
+    display:none;
+    margin-top: 40px;
+    text-align: center;
+    font-family: 'Nanum Gothic Coding', monospace;
+}
