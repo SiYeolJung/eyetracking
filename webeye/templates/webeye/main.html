@@ -15,6 +15,7 @@
     <title>index page</title>
 </head>
 <body>
+
     <ul id="calibrationDiv">
         <li class="item">
             <input type="image" src="/static/img/beforeCheck.png" id="Pt1" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
@@ -44,6 +45,26 @@
             <input type="image" src="/static/img/beforeCheck.png" id="Pt9" onclick="btnClick(this);" style="opacity: 1.0; width:50px">
         </li>
     </ul>
+  
+    <div id="modal" class="modal-overlay">
+        <div class="modal-inner">
+            <div class="modal-window">
+                <div class="title">
+                    <h2>강의전 집중력 향상</h2>
+                </div>
+                <!-- <a class="close-area" onclick="requestFullScreen()">X</a> -->
+                <ul class="content">
+                    <li>1. 각 타켓을 집중해서 응시해주세요</li>
+                    <li>2. 빨간점이 가까워지면 클릭해주세요</li>
+                    <li>3. 타켓을 각각 5번씩 맞추어주세요</li>
+                    <li>4. 강의가 시작됩니다</li>
+                </ul>
+                <div class="btn-container">
+                    <button class="btn" onclick="requestFullScreen()">학습 시작!</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section id="container">
             <video id="video_player" controls class="video_player" width="800" height="500">
@@ -52,7 +73,35 @@
             <!-- <h1 id="app">{{ text }}</h1> -->
     </section>
 </body>
+
+
     <script>
+        const modal = document.getElementById("modal");
+
+        const modalClose = () => {
+            modal.style.display = "none"
+        }
+
+        // element which needs to enter full-screen mode
+        // var element = document.querySelector("#test")
+
+    function requestFullScreen() {
+        let element = document.querySelector("html");
+        console.log(element)
+    // Supports most browsers and their versions.
+        var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+        if (requestMethod) { // Native full screen.
+            requestMethod.call(element);
+            modalClose();
+        } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+            var wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null) {
+                wscript.SendKeys("{F11}");
+            }
+        }
+    }
+
         let PointCalibrate = 0;
         let CalibrationPoints = {};
 

@@ -15,6 +15,6 @@ application = ProtocolTypeRouter({
 # -b 0.0.0.0 -p 8443
 
 # Django의 url 과 비슷하다 
-# ws_urlpatterns = [
-#     path('',WSConsumer.as_asgi()),
-# ]
+ws_urlpatterns = [
+    path('',WSConsumer.as_asgi()),
+]

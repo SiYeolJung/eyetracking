@@ -10,15 +10,17 @@
 <body>
         <div class ="container">
             <div class="inner">
-                <li>{{course}}</li>
+                <li>{{lecturelist.0.course}}</li>
                 <table>
                     {% for lecture in lecturelist %}
                         <div class="item-card">
-                            <li class= "card-wrapper">{{lecture.title}}</li>
-                            <button class= "btn lecture-btn"  onclick="location.href='{{lecture.url}}'">
-                                강의 맛보기
-                            </button>
-                            <a href="{% url 'to_video' lecture.lid %}" class="btn mypage">진짜진짜</a>
+                            <li class="card-wrapper">{{lecture.title}}</li>
+                            <div class="btn-section">
+                                <button class="btn lecture-btn" onclick="location.href='{{lecture.url}}'">
+                                    강의 맛보기
+                                </button>
+                                <a href="{% url 'to_video' lecture.lid %}" class="btn mypage">학습하기</a>
+                            </div>
                         </div>
                     {% endfor %}
                 </table>
