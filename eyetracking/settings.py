@@ -23,6 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 secret_file = os.path.join(BASE_DIR, 'secretkey.json')
 
+LOGIN_URL = "/signin"
+
 with open(secret_file) as f:
     secrets = json.loads(f.read())
 

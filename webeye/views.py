@@ -90,6 +90,7 @@ def mypage(request, pk):
     return render(request, 'webeye/mypage.html', {'user': user, 'scraps':courseList})
 
 
+@login_required
 def lecture(request):
     lectureList = Lecture.objects.all()
     user = request.user
